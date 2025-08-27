@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
+require("dotenv").config();
 
-const mongoDB = "insertDBURLHere";
+const URL = process.env.DB_URL;
 
-
-main().catch((err) => console.log(err));
-
-async function main() {
-  await mongoose.connect(mongoDB);
+async function connectDB() {
+  try {
+    await mongoose.connect(URL);
+    console.log("mongo connected")
+  } catch (err) {
+    console.error("connection error ->", err);
+  }
 }
+
+module.exports = connectDB;
