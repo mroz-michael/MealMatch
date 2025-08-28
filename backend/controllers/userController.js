@@ -1,10 +1,20 @@
 // call relevant service functions and return response obj/status codes, 
 // middleware will handle data validation before it reaches this controller
+const service = require('../services/userService');
 
 const createUser = async (req, res) => {
-    //todo:  hash pw, save user to db, handle errors
-    console.log("Will create user when this is called");
+    
+    const userInfo = {username: req.body.username, password: req.body.password};
+    
+    try {
+        const user = await service.registerUser(userInfo);
+        res.status(201).json(user);
+        } catch (err) {
+            const msg = err.message ? err.message : "Error creating user";
+            res.status(400).json({message: msg});
+        }
 }
+
 
 //use for log ins
 const getUser = async (req, res) => {
