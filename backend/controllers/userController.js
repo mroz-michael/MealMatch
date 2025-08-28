@@ -9,22 +9,39 @@ const createUser = async (req, res) => {
     try {
         const user = await service.registerUser(userInfo);
         res.status(201).json(user);
-        } catch (err) {
-            const msg = err.message ? err.message : "Error creating user";
-            res.status(400).json({message: msg});
-        }
+    } catch (err) {
+        const msg = err.message ? err.message : "Error creating user";
+        res.status(401).json({message: msg});
+    }
 }
 
 
 //use for log ins
 const getUser = async (req, res) => {
-    //todo  unhash pw, get user from db, handle errors
-    console.log("will get the user")
+    try {
+        const userInfo = {username: req.body.username, password: req.body.password};
+        const token = await service.loginUser(userInfo);
+        res.status(200).json(token);
+    } catch (err) {
+        code = err.message && err.message == "Invalid credentials" ? 401 : 500;
+        if (!err.message) {
+            err.message = "Unknown error";
+        }
+        res.status(code).json({message: err.message});
+    }
 }
 
 const deleteUser = async (req, res) => {
-    //todo: del user, handle errors
-    console.log("will delete user when called");
+    //middleware will confirm validity of token and attach username/id to request
+    try {
+        const userId = req.user.userId;
+        await service.deleteUser(userId);
+        res.status(204);
+    } catch (err) {
+        code = err.message && err.message == "Invalid credentials" ? 401 : 500;
+        const msg = err.message || "Unknown Error";
+        res.status(401).json({message: msg});
+    }
 }
 
 const updateUser = async(req, res) => {
