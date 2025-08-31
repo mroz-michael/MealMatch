@@ -8,7 +8,14 @@ const createUser = async (req, res) => {
     
     try {
         const user = await service.registerUser(userInfo);
-        res.status(201).json(user);
+        const returnedUser = {
+            username: user.username,
+            id: user._id,
+            stock: [],
+            preferences: []
+        }
+
+        res.status(201).json(returnedUser);
     } catch (err) {
         const msg = err.message ? err.message : "Error creating user";
         res.status(401).json({message: msg});
@@ -55,9 +62,33 @@ const updatePassword = async(req, res) => {
     }
 }
 
+//endpoint for testing users api
+const getAllUsersTest = async(req, res) => {
+
+    try {
+        users = await service.getAllUsersTest();
+
+        //remove password hashes from response obj
+        safeUsers = users.map(user => {
+            return {
+                id: user._id,
+                username: user.username,
+                recipeList: user.recipeList,
+                stock: user.stock,
+                preferences: user.preferences
+            }
+        })
+
+        res.status(200).json(safeUsers);
+    } catch (err) {
+        return err; 
+    }
+}
+
 module.exports = {
     createUser,
     getUser,
     updatePassword,
     deleteUser,
+    getAllUsersTest
 }

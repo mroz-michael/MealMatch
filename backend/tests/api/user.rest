@@ -1,1 +1,15 @@
-GET http://localhost:3001/api/users
+GET http://localhost:3001/api/users/testing
+
+###
+POST http://localhost:3001/api/users/register
+content-type: application/json
+
+{
+    "username": "root2",
+    "password": "password2",
+    "itsJustMeTesting": true
+}
+
+
+### not an actual endpoint, just a quick delete for testing
+DELETE http://localhost:3001/api/users/deleteForTesting/68b4bc410cbeb8fd4100c5d9

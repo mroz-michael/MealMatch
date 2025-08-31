@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const validation = require('../middleware/validation/userValidation')
+const validation = require('../middleware/validation/userValidation');
 require('dotenv').config();
 
 /**
@@ -9,7 +9,7 @@ require('dotenv').config();
  * @param {{username: string, password: string }} userInfo - Object containing name and unhashed pw
  * @returns newly created user object
  */
-const registerUser = async ({userInfo}) => {
+const registerUser = async (userInfo) => {
     try {
         const pwHash = await bcrypt.hash(userInfo.password, 10);
         const newUser = await User.create({
@@ -18,11 +18,11 @@ const registerUser = async ({userInfo}) => {
             stock: [],
             preferences: []
         })
+        
+        return newUser;
     } catch (err) {
         throw err;
     }
-
-    return newUser;
 }
 
 /**
@@ -30,7 +30,7 @@ const registerUser = async ({userInfo}) => {
  * @param {{username: string, password: string }} userInfo - Object containing name and unhashed pw
  * @returns auth token
  */
-const loginUser = async({userInfo}) => {
+const loginUser = async(userInfo) => {
 
     try {
         const user = await User.findOne({username: userInfo.username});
@@ -97,9 +97,16 @@ const updatePassword = async(req) => {
     }
 }
 
+//get all for testing purposes
+const getAllUsersTest = async () => {
+    let users = await User.find({});
+    return users;
+}
+
 module.exports = {
     registerUser,
     loginUser,
     deleteUser,
     updatePassword,
+    getAllUsersTest
 }
