@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const controller = require('../controllers/userController');
 const authMiddleware = require('../middleware/auth/jwtAuth');
-const validationMiddlewae = require('../middleware/validation/userValidation');
-//todo: add middleware validation functions once implemented
+const validationMiddleware = require('../middleware/validation/userValidation');
 
-router.post('/register', controller.createUser)
+router.post('/register', validationMiddleware.validateUserDetails, controller.createUser)
 
-router.post('/login', controller.getUser);
+router.post('/login', validationMiddleware.validateUserDetails, controller.getUser);
 
-router.delete('/deleteAccount', authMiddleware.authenticateToken, controller.deleteUser);
+router.put('/updatePw', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.updatePassword);
+
+router.delete('/deleteAccount', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.deleteUser);
 
 module.exports = router;

@@ -38,19 +38,26 @@ const deleteUser = async (req, res) => {
         await service.deleteUser(userId);
         res.status(204);
     } catch (err) {
-        code = err.message && err.message == "Invalid credentials" ? 401 : 500;
-        const msg = err.message || "Unknown Error";
-        res.status(401).json({message: msg});
+        const msg = err.message ?? "Unknown Error";
+        res.status(404).json({message: msg});
     }
 }
 
-const updateUser = async(req, res) => {
-    console.log("will update user when called");
+const updatePassword = async(req, res) => {
+    //middleware confirms token validity
+    try {
+        const updatedUser = await service.updatePassword(req);
+        res.status(201).json(updatedUser);
+    } catch (err) {
+        code = err.message && err.message == "Invalid Request" ? 400 : 500;
+        const msg = err.message ?? "Unknown Error";
+        res.status(code).json({message: msg});
+    }
 }
 
 module.exports = {
     createUser,
     getUser,
-    updateUser,
+    updatePassword,
     deleteUser,
 }

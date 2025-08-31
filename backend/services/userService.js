@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const validation = require('../middleware/validation/userValidation')
 require('dotenv').config();
 
 /**
@@ -64,7 +65,41 @@ const deleteUser = async(userId) => {
     }
 }
 
+/**
+ * 
+ * @param {*} req- the put request body with decoded token attached as req.user
+ * currently only updates password. in future username and other things could be updated, just need to add checks
+ * or split into different functions
+ */
+const updatePassword = async(req) => {
+    try {
+        const id = req.user.userId;
+        const user = await User.findById(id);
+        const sameUsername = req.body.username == user.username;
+        const samePw = await bcrypt.compare(req.body.password, user.pwHash);
+        if (! (samePw && sameUsername) ) {
+            throw new Error("Invalid Request")
+        }
+        
+        //validate new password
+        if (!validation.validatePassword(req.body.newPassword)) {
+            throw new Error("Invalid Request");
+        }
+
+        const newPwHash = await bcrypt.hash(req.body.newPassword, 10);
+        const updatedInfo = {...user, pwHash: newPwHash};
+
+        const updatedUser = await User.findByIdAndUpdate(id, updatedInfo, {new: true});
+
+        return updatedUser; 
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
+    deleteUser,
+    updatePassword,
 }

@@ -10,6 +10,11 @@ const extractToken = async (req) => {
     return null;
 }
 
+/**
+ * confirm validity of token sent with request
+ * if valid, attach decoded token to request as req.user
+ * @returns 
+ */
 const authenticateToken = (req, res, next) => {
     const token = extractToken(req);
     try {
@@ -24,16 +29,6 @@ const authenticateToken = (req, res, next) => {
     }
 }
 
-const generateToken = async (payload) => {
-
-}
-
-const refreshToken = async (oldToken) => {
-
-}
-
 module.exports = {
-    authenticateToken,
-    generateToken,
-    refreshToken
+    authenticateToken
 }
