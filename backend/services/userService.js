@@ -45,14 +45,18 @@ const loginUser = async(userInfo) => {
             {expiresIn: process.env.JWT_EXPIRES_IN}
         );
 
-        return token;
+        return {
+            "token": token,
+            "userId": user._id,
+            "username": user.username,
+        };
 
     } catch (err) {
         if (err.message == "Invalid credentials") {
             throw err;
         }
         
-        throw new Error("Unknown Error");
+        throw new Error(err);
     }
 }
 

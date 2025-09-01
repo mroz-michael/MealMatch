@@ -12,15 +12,15 @@ const validateUserDetails = (req, res, next) => {
     //more user-friendly error messages are left for the front end
 
     if (!validateUsername(req.body.username)) {
-        throw new Error("Invalid Username");
+        throw new Error("Username does not meet minimum requirements");
     }
 
     if (!validatePassword(req.body.password)) {
         //temporary for convenient api testing
-        if (req.body.itsJustMeTesting) {
+        if (req.body.bypassPwRequirements) {
             return next();
         }
-        throw new Error("Invalid Password");
+        throw new Error("Password does not meet minimum requirements");
     }
 
     return next();

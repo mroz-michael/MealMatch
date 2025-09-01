@@ -7,9 +7,20 @@ content-type: application/json
 {
     "username": "root2",
     "password": "password2",
-    "itsJustMeTesting": true
+    "bypassPwRequirements": true
 }
 
 
 ### not an actual endpoint, just a quick delete for testing
 DELETE http://localhost:3001/api/users/deleteForTesting/68b4bc410cbeb8fd4100c5d9
+
+
+###
+POST http://localhost:3001/api/users/login
+Content-Type: application/json
+
+{
+    "username": "root",
+    "password": "password",
+    "bypassPwRequirements": true
+}
