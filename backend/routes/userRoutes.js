@@ -12,6 +12,9 @@ router.post('/login', validationMiddleware.validateUserDetails, controller.getUs
 
 router.put('/updatePw', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.updatePassword);
 
+//for updating recipe list & stock
+router.put('/updateUser', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.updateUser);
+
 router.delete('/deleteAccount', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.deleteUser);
 
 //temp route to delete quickly for testing api

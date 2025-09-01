@@ -34,6 +34,9 @@ const loginUser = async(userInfo) => {
 
     try {
         const user = await User.findOne({username: userInfo.username});
+        if (!user) {
+            throw new Error("Invalid credentials")
+        }
         const samePw = await bcrypt.compare(userInfo.password, user.pwHash);
         if (!samePw) {
             throw new Error("Invalid credentials")

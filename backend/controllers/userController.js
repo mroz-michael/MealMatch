@@ -64,6 +64,11 @@ const updatePassword = async(req, res) => {
     }
 }
 
+//for updating username, recipe list, or ingredient stock
+const updateUser = async (req, res) => {
+
+}
+
 //endpoint for testing users api
 const getAllUsersTest = async(req, res) => {
 
@@ -92,5 +97,6 @@ module.exports = {
     getUser,
     updatePassword,
     deleteUser,
+    updateUser,
     getAllUsersTest
 }
