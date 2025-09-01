@@ -6,13 +6,13 @@ const MINIMUM_PASSWORD_LENGTH = 8;
  */
 const validateUserDetails = (req, res, next) => {
     if (! (req.body && req.body.username && req.body.password) ) {
-        throw new Error("Invalid Request");
+        return res.status(400).json("Malformed Request");
     }
 
     //more user-friendly error messages are left for the front end
 
     if (!validateUsername(req.body.username)) {
-        throw new Error("Username does not meet minimum requirements");
+        return res.status(400).json("Username does not meet minimum requirements");
     }
 
     if (!validatePassword(req.body.password)) {
@@ -20,7 +20,7 @@ const validateUserDetails = (req, res, next) => {
         if (req.body.bypassPwRequirements) {
             return next();
         }
-        throw new Error("Password does not meet minimum requirements");
+        return res.status(400).json("Password does not meet minimum requirements");
     }
 
     return next();

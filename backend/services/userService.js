@@ -60,8 +60,14 @@ const loginUser = async(userInfo) => {
     }
 }
 
-const deleteUser = async(userId) => {
+//req contains username, pw, and user obj extracted from token
+const deleteUser = async(req) => {
     try {
+        
+        if (req.body.username !== req.user.username) {
+            throw new Error("Invalid Deletion Request");
+        }
+        const userId = req.user.userId;
         await User.findByIdAndDelete(userId);
         return;
     } catch (err) {
@@ -76,9 +82,14 @@ const deleteUser = async(userId) => {
  * or split into different functions
  */
 const updatePassword = async(req) => {
+
     try {
         const id = req.user.userId;
         const user = await User.findById(id);
+        if (!user) {
+            throw new Error("Invalid Request");
+        }
+
         const sameUsername = req.body.username == user.username;
         const samePw = await bcrypt.compare(req.body.password, user.pwHash);
         if (! (samePw && sameUsername) ) {

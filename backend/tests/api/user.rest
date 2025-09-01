@@ -7,13 +7,13 @@
 
 GET http://localhost:3001/api/users/testing
 
-###
+###  create user
 POST http://localhost:3001/api/users/register
 content-type: application/json
 
 {
-    "username": "root2",
-    "password": "password2",
+    "username": "root",
+    "password": "password",
     "bypassPwRequirements": true
 }
 
@@ -27,7 +27,7 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "username": "root",
+    "username": "root2",
     "password": "password",
     "bypassPwRequirements": true
 }
@@ -36,11 +36,22 @@ Content-Type: application/json
 
 PUT http://localhost:3001/api/users/updatePw
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI0YmNkZjYxYzNlMTM2ZWRlNjc1MmUiLCJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE3NTY3NDE5NTMsImV4cCI6MTc1NzM0Njc1M30.SqN7KjckN4EkgXShpmi334KbJozT_6rD7fQVpeSq0Ps
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI0YmQ2OTM3YWU0NTRjMWVhOTZlMmMiLCJ1c2VybmFtZSI6InJvb3QyIiwiaWF0IjoxNzU2NzU0OTcxLCJleHAiOjE3NTczNTk3NzF9.Mc1B5J2SjLq1goVKz4BfEN31-qjlRyN2y19i6S4JTWs
 
 {
-    "username": "root",
-    "password": "password1",
+    "username": "root2",
+    "password": "password2",
     "bypassPwRequirements": true,
     "newPassword": "password"
+}
+
+### token for user to delete: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI0YmQ2OTM3YWU0NTRjMWVhOTZlMmMiLCJ1c2VybmFtZSI6InJvb3QyIiwiaWF0IjoxNzU2NzU1MDYwLCJleHAiOjE3NTczNTk4NjB9.UAf2jsZ3wz7qVFIfYTD-lCTJl8L6k8FF0aQHxtgTu_A
+DELETE http://localhost:3001/api/users/deleteAccount
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI0YmQ2OTM3YWU0NTRjMWVhOTZlMmMiLCJ1c2VybmFtZSI6InJvb3QyIiwiaWF0IjoxNzU2NzU1MDYwLCJleHAiOjE3NTczNTk4NjB9.UAf2jsZ3wz7qVFIfYTD-lCTJl8L6k8FF0aQHxtgTu_A
+
+{
+    "username": "root2",
+    "password": "password2",
+    "bypassPwRequirements": true
 }

@@ -40,10 +40,10 @@ const getUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     //middleware will confirm validity of token and attach username/id to request
+    
     try {
-        const userId = req.user.userId;
-        await service.deleteUser(userId);
-        res.status(204);
+        await service.deleteUser(req);
+        res.status(204).send();
     } catch (err) {
         const msg = err.message ?? "Unknown Error";
         res.status(404).json({message: msg});
