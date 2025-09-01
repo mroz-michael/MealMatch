@@ -35,11 +35,11 @@ const loginUser = async(userInfo) => {
     try {
         const user = await User.findOne({username: userInfo.username});
         if (!user) {
-            throw new Error("Invalid credentials")
+            throw new Error("Invalid credentials");
         }
         const samePw = await bcrypt.compare(userInfo.password, user.pwHash);
         if (!samePw) {
-            throw new Error("Invalid credentials")
+            throw new Error("Invalid credentials");
         }
 
         const token = jwt.sign(
@@ -116,6 +116,38 @@ const updatePassword = async(req) => {
     }
 }
 
+//for updating non-pw fields, 
+const updateUser = async(req) => {
+    try {
+        const id = req.user.userId;
+        const user = await User.findById(id);
+        if (!user) {
+            throw new Error("Invalid Request");
+        }
+
+        const samePw = await bcrypt.compare(req.body.password, user.pwHash);
+        if (!samePw) {
+            throw new Error("Invalid Request")
+        }
+        
+        const updatedRecipes = req.body.recipeList ?? user.recipeList;
+        const updatedStock = req.body.stock ?? user.stock;
+
+        const updatedFields = {
+            username: req.body.username,
+            updatedRecipes,
+            updatedStock
+        };
+        
+        const updatedUser = await User.findByIdAndUpdate(id, updatedFields, {new: true});
+
+        return updatedUser.toJSON(); 
+        
+    } catch (err) {
+        throw new Error(err.message);
+    }
+}
+
 //get all for testing purposes
 const getAllUsersTest = async () => {
     let users = await User.find({});
@@ -127,5 +159,6 @@ module.exports = {
     loginUser,
     deleteUser,
     updatePassword,
+    updateUser,
     getAllUsersTest
 }

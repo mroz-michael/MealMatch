@@ -58,7 +58,7 @@ const updatePassword = async(req, res) => {
         delete returnedUser.pwHash;
         res.status(200).json(returnedUser);
     } catch (err) {
-        code = err.message && err.message == "Invalid Request" ? 400 : 500;
+        code = err.message && err.message == "Invalid Request" ? 401 : 500;
         const msg = err.message ?? "Unknown Error";
         res.status(code).json({message: msg});
     }
@@ -66,7 +66,16 @@ const updatePassword = async(req, res) => {
 
 //for updating username, recipe list, or ingredient stock
 const updateUser = async (req, res) => {
-
+    try {
+        const updatedUser = await service.updateUser(req);
+        const returnedUser = Object.assign({}, updatedUser);
+        delete returnedUser.pwHash;
+        res.status(200).json(returnedUser);
+    } catch (err) {
+        code = err.message && err.message == "Invalid Request" ? 401 : 500;
+        const msg = err.message ?? "Unknown Error";
+        res.status(code).json({message: msg});
+    }
 }
 
 //endpoint for testing users api
