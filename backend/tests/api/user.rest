@@ -1,3 +1,10 @@
+## "username": "root",
+## "password": "password",
+## "bypassPwRequirements": true
+## token is: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI0YmNkZjYxYzNlMTM2ZWRlNjc1MmUiLCJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE3NTY3NDE5NTMsImV4cCI6MTc1NzM0Njc1M30.SqN7KjckN4EkgXShpmi334KbJozT_6rD7fQVpeSq0Ps
+##token expires sept 8
+
+
 GET http://localhost:3001/api/users/testing
 
 ###
@@ -23,4 +30,17 @@ Content-Type: application/json
     "username": "root",
     "password": "password",
     "bypassPwRequirements": true
+}
+
+### updatepw requires username, password, newPassword
+
+PUT http://localhost:3001/api/users/updatePw
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGI0YmNkZjYxYzNlMTM2ZWRlNjc1MmUiLCJ1c2VybmFtZSI6InJvb3QiLCJpYXQiOjE3NTY3NDE5NTMsImV4cCI6MTc1NzM0Njc1M30.SqN7KjckN4EkgXShpmi334KbJozT_6rD7fQVpeSq0Ps
+
+{
+    "username": "root",
+    "password": "password1",
+    "bypassPwRequirements": true,
+    "newPassword": "password"
 }

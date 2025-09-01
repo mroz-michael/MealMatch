@@ -86,16 +86,17 @@ const updatePassword = async(req) => {
         }
         
         //validate new password
-        if (!validation.validatePassword(req.body.newPassword)) {
+        if (!validation.validatePassword(req.body.newPassword) && !req.body.bypassPwRequirements) {
             throw new Error("Invalid Request");
         }
 
         const newPwHash = await bcrypt.hash(req.body.newPassword, 10);
-        const updatedInfo = {...user, pwHash: newPwHash};
-
+        const updatedInfo = {pwHash: newPwHash};
+        
         const updatedUser = await User.findByIdAndUpdate(id, updatedInfo, {new: true});
 
-        return updatedUser; 
+        return updatedUser.toJSON(); 
+        
     } catch (err) {
         throw new Error(err.message);
     }

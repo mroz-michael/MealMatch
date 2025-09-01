@@ -54,7 +54,9 @@ const updatePassword = async(req, res) => {
     //middleware confirms token validity
     try {
         const updatedUser = await service.updatePassword(req);
-        res.status(201).json(updatedUser);
+        const returnedUser = Object.assign({}, updatedUser);
+        delete returnedUser.pwHash;
+        res.status(200).json(returnedUser);
     } catch (err) {
         code = err.message && err.message == "Invalid Request" ? 400 : 500;
         const msg = err.message ?? "Unknown Error";

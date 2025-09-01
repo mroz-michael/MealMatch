@@ -15,8 +15,9 @@ const extractToken = async (req) => {
  * if valid, attach decoded token to request as req.user
  * @returns 
  */
-const authenticateToken = (req, res, next) => {
-    const token = extractToken(req);
+const authenticateToken = async (req, res, next) => {
+    const token = await extractToken(req);
+    
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if (!decoded || !decoded.userId) {
