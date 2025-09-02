@@ -1,14 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const extractToken = async (req) => {
-    const header = req.get('authorization');
-    if (header && header.startsWith('Bearer ')) {
-        return header.replace('Bearer ', '');
-    }
-
-    return null;
-}
 
 /**
  * confirm validity of token sent with request
@@ -16,9 +8,10 @@ const extractToken = async (req) => {
  * @returns 
  */
 const authenticateToken = async (req, res, next) => {
-    const token = await extractToken(req);
-    
+
     try {
+        const token = req.cookies.jwt;
+        
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if (!decoded || !decoded.userId) {
             throw new Error();
