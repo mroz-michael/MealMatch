@@ -48,6 +48,23 @@ const getUser = async (req, res) => {
     }
 }
 
+const logoutUser = async (req, res) => {
+
+    try {
+        //use same settings as cookie in login controller
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "None",
+        });
+        
+        res.status(204).send();
+    } catch (err) {
+        res.status(400).json({message: err.message});
+    }
+
+}
+
 const deleteUser = async (req, res) => {
     //middleware will confirm validity of token and attach username/id to request
     
@@ -122,6 +139,7 @@ const getAllUsersTest = async(req, res) => {
 module.exports = {
     createUser,
     getUser,
+    logoutUser,
     updatePassword,
     deleteUser,
     updateUser,

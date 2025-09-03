@@ -10,6 +10,8 @@ router.post('/register', validationMiddleware.validateUserDetails, controller.cr
 
 router.post('/login', validationMiddleware.validateUserDetails, controller.getUser);
 
+router.post('/logout', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.logoutUser);
+
 router.put('/updatePw', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.updatePassword);
 
 //for updating recipe list & stock

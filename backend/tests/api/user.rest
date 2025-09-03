@@ -27,6 +27,17 @@ Content-Type: application/json
     "password": "Password123!"
 }
 
+
+### 
+
+POST http://localhost:3001/api/users/logout
+Content-Type: application/json
+
+{
+    "username": "root",
+    "password": "Password123!"
+}
+
 ### updatepw requires username, password, newPassword
 
 PUT http://localhost:3001/api/users/updatePw
