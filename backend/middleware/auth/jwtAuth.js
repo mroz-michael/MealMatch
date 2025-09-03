@@ -11,14 +11,14 @@ const authenticateToken = async (req, res, next) => {
 
     try {
         const token = req.cookies.jwt;
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if (!decoded || !decoded.userId) {
+        const user = jwt.verify(token, process.env.JWT_SECRET);
+        if (!user || !user.id) {
             throw new Error();
         }
-        req.user = decoded;
+        req.user = user;
         next();
     } catch (err) {
-        return res.status(401).json({message: "Invalid token"});
+        return res.status(401).json({message: "Authentication Failed"});
     }
 }
 

@@ -38,9 +38,9 @@ const validatePassword = (pw) => {
     return longEnough && containsSymbol && containsUpper && containsLower && containsDigit;
 }
 
-//internal helper function
+//internal helper function to enforce User schema min length username
 const validateUsername = (username) => {
-    return username && username.length > 1;
+    return username && username.length > 2;
 }
 
 module.exports = {

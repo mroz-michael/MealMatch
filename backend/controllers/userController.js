@@ -24,8 +24,29 @@ const createUser = async (req, res) => {
 }
 
 
-//use for log ins
-const getUser = async (req, res) => {
+const getCurrentUser = async (req, res) => {
+
+    try {
+//if token is valid, user will be attached to req by middleware
+        if (req.user) {
+            const returnedUser = {
+                username: req.user.username,
+                id: req.user.id,
+                recipeList: req.user.recipeList,
+                stock: req.user.stock,
+                preferences: req.user.preferences
+            }
+
+            res.status(200).json(returnedUser);
+        } else {
+            throw new Error("Login not found");
+        }
+    } catch (err) {
+        res.status(401).json({message: err.message});
+    }
+}
+
+const loginUser = async (req, res) => {
     try {
         const userInfo = {username: req.body.username, password: req.body.password};
         const token = await service.loginUser(userInfo);
@@ -138,10 +159,11 @@ const getAllUsersTest = async(req, res) => {
 
 module.exports = {
     createUser,
-    getUser,
+    getCurrentUser,
+    loginUser,
     logoutUser,
     updatePassword,
-    deleteUser,
     updateUser,
+    deleteUser,
     getAllUsersTest
 }

@@ -15,8 +15,6 @@ const registerUser = async (userInfo) => {
         const newUser = await User.create({
             username: userInfo.username,
             pwHash,
-            stock: [],
-            preferences: []
         })
         
         return newUser;
@@ -43,16 +41,19 @@ const loginUser = async(userInfo) => {
         }
 
         const token = jwt.sign(
-            {userId: user._id, username: user.username}, 
+            //user object that will be attached to request
+            {
+                id: user._id, 
+                username: user.username,
+                recipeList: user.recipeList,
+                stock: user.stock,
+                preferences: user.preferences
+            },
+
             process.env.JWT_SECRET, 
             {expiresIn: process.env.JWT_EXPIRES_IN}
         );
 
-        // return {
-        //     "token": token,
-        //     "userId": user._id,
-        //     "username": user.username,
-        // };
         return token;
 
     } catch (err) {
@@ -63,6 +64,7 @@ const loginUser = async(userInfo) => {
         throw new Error(err);
     }
 }
+
 
 //req contains username, pw, and user obj extracted from token
 const deleteUser = async(req) => {

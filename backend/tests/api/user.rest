@@ -2,7 +2,12 @@
 ## "password": "Password123!",
 
 
+## get all users --> for api testing only (or future admin use)
 GET http://localhost:3001/api/users/testing
+
+###get logged in user
+
+GET http://localhost:3001/api/users/session
 
 ###  create user
 POST http://localhost:3001/api/users/register
@@ -14,8 +19,8 @@ content-type: application/json
 }
 
 
-### not an actual endpoint, just a quick delete for testing
-DELETE http://localhost:3001/api/users/deleteForTesting/68b5ec7e8647abc722e18218
+### not an actual endpoint, just a quick delete by id for testing stuff
+DELETE http://localhost:3001/api/users/deleteForTesting/<id>
 
 
 ###
@@ -54,8 +59,8 @@ DELETE http://localhost:3001/api/users/deleteAccount
 Content-Type: application/json
 
 {
-    "username": "test2",
-    "password": "pw"
+    "username": "root",
+    "password": "Password123!"
 }
 
 ### update username/recipeList/stock 

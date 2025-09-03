@@ -6,9 +6,11 @@ const validationMiddleware = require('../middleware/validation/userValidation');
 //temporary route for testing other endpoints
 router.get('/testing', controller.getAllUsersTest);
 
+router.get('/session', authMiddleware.authenticateToken, controller.getCurrentUser);
+
 router.post('/register', validationMiddleware.validateUserDetails, controller.createUser)
 
-router.post('/login', validationMiddleware.validateUserDetails, controller.getUser);
+router.post('/login', validationMiddleware.validateUserDetails, controller.loginUser);
 
 router.post('/logout', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.logoutUser);
 
