@@ -1,6 +1,7 @@
 // call relevant service functions and return response obj/status codes, 
 // middleware will handle data validation before it reaches this controller
 const service = require('../services/userService');
+require('dotenv').config();
 
 const createUser = async (req, res) => {
     
@@ -31,8 +32,8 @@ const getUser = async (req, res) => {
         //attach token to cookie
         res.cookie("jwt", token, {
             httpOnly: true,
-            secure: false, //todo: change when in production
-            sameSite: "None",
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "None",
             maxAge: 1000 * 24 * 7 * 60 * 60 //1 week
         });
 
@@ -52,6 +53,14 @@ const deleteUser = async (req, res) => {
     
     try {
         await service.deleteUser(req);
+
+        //use same settings as cookie in login controller
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "None",
+        });
+
         res.status(204).send();
     } catch (err) {
         const msg = err.message ?? "Unknown Error";
@@ -67,7 +76,7 @@ const updatePassword = async(req, res) => {
         delete returnedUser.pwHash;
         res.status(200).json(returnedUser);
     } catch (err) {
-        code = err.message && err.message == "Invalid Request" ? 401 : 500;
+        code = err.message && err.message == "Invalid Request" ? 400 : 401;
         const msg = err.message ?? "Unknown Error";
         res.status(code).json({message: msg});
     }

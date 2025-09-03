@@ -88,6 +88,7 @@ const deleteUser = async(req) => {
 const updatePassword = async(req) => {
 
     try {
+
         const id = req.user.userId;
         const user = await User.findById(id);
         if (!user) {
@@ -101,8 +102,8 @@ const updatePassword = async(req) => {
         }
         
         //validate new password
-        if (!validation.validatePassword(req.body.newPassword) && !req.body.bypassPwRequirements) {
-            throw new Error("Invalid Request");
+        if (!validation.validatePassword(req.body.newPassword)) {
+            throw new Error("New password does not meet minimum requirements");
         }
 
         const newPwHash = await bcrypt.hash(req.body.newPassword, 10);
