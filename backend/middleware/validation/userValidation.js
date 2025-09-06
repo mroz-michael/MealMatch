@@ -5,6 +5,7 @@ const MINIMUM_PASSWORD_LENGTH = 8;
  * validate incoming request to ensure it contains username and password
  */
 const validateUserDetails = (req, res, next) => {
+    
     if (! (req.body && req.body.username && req.body.password) ) {
         return res.status(400).json("Malformatted Request");
     }

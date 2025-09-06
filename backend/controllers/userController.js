@@ -54,8 +54,9 @@ const loginUser = async (req, res) => {
         res.cookie("jwt", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "strict" : "None",
-            maxAge: 1000 * 24 * 7 * 60 * 60 //1 week
+            sameSite: process.env.NODE_ENV = "Lax",
+            maxAge: 1000 * 24 * 7 * 60 * 60, //1 week
+            path: "/"
         });
 
         res.status(200).json({message: "Login Successful"});
@@ -76,7 +77,9 @@ const logoutUser = async (req, res) => {
         res.clearCookie("jwt", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "strict" : "None",
+            sameSite: process.env.NODE_ENV = "Lax",
+            maxAge: 1000 * 24 * 7 * 60 * 60, //1 week
+            path: "/"
         });
         
         res.status(204).send();

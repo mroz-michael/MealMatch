@@ -18,6 +18,7 @@ const authenticateToken = async (req, res, next) => {
         req.user = user;
         next();
     } catch (err) {
+        console.log(err);
         return res.status(401).json({message: "Authentication Failed"});
     }
 }
