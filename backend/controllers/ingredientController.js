@@ -1,4 +1,6 @@
-// call relevant service functions and return response obj/status codes, 
+import services from '../services/ingredientService';
+
+
 // middleware will handle data validation before it reaches this controller
 
 const createIngredient = async (req, res) => {

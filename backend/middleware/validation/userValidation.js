@@ -30,18 +30,19 @@ const validateUserDetails = (req, res, next) => {
  * returns true if pw is valid, else false
  */
 const validatePassword = (pw) => {
+    const isString = typeof pw === "string";
     const longEnough = pw.length >= MINIMUM_PASSWORD_LENGTH;
     const containsSymbol = /[^A-Za-z0-9]/.test(pw);
     const containsUpper = /[A-Z]/.test(pw);
     const containsLower = /[a-z]/.test(pw);
     const containsDigit = /[0-9]/.test(pw);
 
-    return longEnough && containsSymbol && containsUpper && containsLower && containsDigit;
+    return isString && longEnough && containsSymbol && containsUpper && containsLower && containsDigit;
 }
 
 //internal helper function to enforce User schema min length username
 const validateUsername = (username) => {
-    return username && username.length > 2;
+    return username && username.length > 2 && typeof username === "string";
 }
 
 module.exports = {
