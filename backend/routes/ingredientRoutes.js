@@ -9,10 +9,10 @@ router.get('/:id', tokenAuth.authenticateToken, controller.getIngredient);
 router.get('/',  tokenAuth.authenticateToken, controller.getAllIngredients);
 
 //create ingredient
-router.post('/',  tokenAuth.authenticateToken, ingredientValidation, controller.createIngredient);
+router.post('/',  tokenAuth.authenticateToken, ingredientValidation.validateIngredient, controller.createIngredient);
 
 //update ingredient
-router.put('/:id', tokenAuth.authenticateToken, ingredientValidation, controller.updateIngredient);
+router.put('/:id', tokenAuth.authenticateToken, ingredientValidation.validateIngredient, controller.updateIngredient);
 
 //delete one ingredient
 router.delete('/:id', tokenAuth.authenticateToken, controller.deleteIngredient);

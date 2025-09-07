@@ -1,4 +1,4 @@
-import service from '../services/ingredientService';
+const service = require('../services/ingredientService');
 
 
 // middleware will handle data validation before it reaches this controller

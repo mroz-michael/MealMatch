@@ -1,6 +1,7 @@
 const Ingredient = require('../models/Ingredient');
 
 const create = async (data) => {
+    
     const newIngredient = await Ingredient.create({
         name: data.name,
         portionCost: data.portionCost,
