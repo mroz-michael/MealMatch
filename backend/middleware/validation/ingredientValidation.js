@@ -86,3 +86,5 @@ const validateDate = (date) => {
     return !(isNaN(dateObj.getTime())) && dateObj >= new Date();
 
 }
+
+module.exports = { validateIngredient }

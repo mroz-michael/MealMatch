@@ -1,21 +1,29 @@
 const router = require('express').Router();
 const controller = require('../controllers/ingredientController');
+const ingredientValidation = require('../middleware/validation/ingredientValidation');
+const tokenAuth = require('../middleware/auth/jwtAuth');
 
-router.get('/:id', controller.getIngredient);
+router.get('/:id', tokenAuth.authenticateToken, controller.getIngredient);
 
 //get all in user's stock
-router.get('/', controller.getAllIngredients);
+router.get('/',  tokenAuth.authenticateToken, controller.getAllIngredients);
 
-router.post('/', controller.createIngredient);
+//create ingredient
+router.post('/',  tokenAuth.authenticateToken, ingredientValidation, controller.createIngredient);
 
-router.put('/:id', controller.updateIngredient);
+//update ingredient
+router.put('/:id', tokenAuth.authenticateToken, ingredientValidation, controller.updateIngredient);
 
-router.delete('/:id', controller.deleteIngredient);
+//delete one ingredient
+router.delete('/:id', tokenAuth.authenticateToken, controller.deleteIngredient);
 
-router.delete('/:name', controller.deleteIngredientsByName);
+//delete all ingredients of a given name
+router.delete('/:name', tokenAuth.authenticateToken, controller.deleteIngredientsByName);
 
-router.delete('/', controller.deleteAllIngredients);
+//delete all user's ingredients
+router.delete('/', tokenAuth.authenticateToken, controller.deleteAllIngredients);
 
-router.delete('/expired', controller.deleteExpiredIngredients);
+//delete all user's expired ingredients
+router.delete('/expired', tokenAuth.authenticateToken, controller.deleteExpiredIngredients);
 
 module.exports = router;
