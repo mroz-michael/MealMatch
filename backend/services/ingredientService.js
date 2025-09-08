@@ -1,16 +1,21 @@
 const Ingredient = require('../models/Ingredient');
+const userService = require('../services/userService');
 
-const create = async (data) => {
+const create = async (req) => {
     
     const newIngredient = await Ingredient.create({
-        name: data.name,
-        portionCost: data.portionCost,
-        portions: data.portions,
-        expiryDate: data.expiryDate,
+        name: req.body.name,
+        portionCost: req.body.portionCost,
+        portions: req.body.portions,
+        expiryDate: req.body.expiryDate,
         user: req.user.id
     })
-    //TODO: update user's stock
 
+    //update user's stock
+    await userService.applyUpdates(req.user.id,
+        {$push: { stock: newIngredient._id}}
+    )
+    
     return newIngredient;
 }
 
@@ -18,9 +23,10 @@ const getById = async (id, user) => {
 
 }
 
-const getAll = async (user) => {
-
-}
+const getAll = async (userId) => {
+    const ingredients = await Ingredient.find({user: userId});
+    return ingredients;
+}   
 
 const updateById = async (req) => {
 

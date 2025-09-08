@@ -28,7 +28,8 @@ const getIngredient = async (req, res) => {
 
 const getAllIngredients = async (req, res) => {
     try {
-
+        const ingredients = await service.getAll(req.user);
+        res.status(200).json(ingredients);
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
