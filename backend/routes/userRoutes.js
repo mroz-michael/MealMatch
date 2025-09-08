@@ -12,7 +12,7 @@ router.post('/register', validationMiddleware.validateUserDetails, controller.cr
 
 router.post('/login', validationMiddleware.validateUserDetails, controller.loginUser);
 
-router.post('/logout', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.logoutUser);
+router.post('/logout', authMiddleware.authenticateToken, controller.logoutUser);
 
 router.put('/updatePw', validationMiddleware.validateUserDetails, authMiddleware.authenticateToken, controller.updatePassword);
 

@@ -28,15 +28,14 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "username": "root",
-    "password": "Password123!"
+    "username": "root1234!",
+    "password": "Password1234!"
 }
 
 
 ### 
 
 POST http://localhost:3001/api/users/logout
-Content-Type: application/json
 
 
 ### updatepw requires username, password, newPassword
@@ -65,6 +64,7 @@ PUT http://localhost:3001/api/users/updateUser
 Content-Type: application/json
 
 {
-    "username": "test2",
-    "password": "pw"
+    "username": "root1234!",
+    "password": "Password1234!",
+    "preferences": ["foo"]
 }

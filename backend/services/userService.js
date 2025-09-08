@@ -45,9 +45,6 @@ const loginUser = async(userInfo) => {
             {
                 id: user._id, 
                 username: user.username,
-                recipeList: user.recipeList,
-                stock: user.stock,
-                preferences: user.preferences
             },
 
             process.env.JWT_SECRET, 
@@ -123,6 +120,7 @@ const updatePassword = async(req) => {
 //for updating non-pw fields, 
 const updateUser = async(req) => {
     try {
+
         const id = req.user.id;
         const user = await User.findById(id);
         
@@ -130,17 +128,27 @@ const updateUser = async(req) => {
             throw new Error("Invalid Request");
         }
 
-        const updatedRecipes = req.body.recipeList ?? user.recipeList;
-        const updatedStock = req.body.stock ?? user.stock;
+        const updatedRecipes = req.body.recipeList;
+        const updatedStock = req.body.stock;
+        const updatedPreferences = req.body.preferences;
+        
+        const updatedFields = {};
 
-        const updatedFields = {
-            username: req.body.username,
-            updatedRecipes,
-            updatedStock
-        };
+        if (updatedRecipes) {
+            updatedFields.recipeList = updatedRecipes;
+        }
+
+        if (updatedStock) {
+            updatedFields.stock = updatedStock;
+        }
+
+        if (updatedPreferences) {
+            updatedFields.preferences = updatedPreferences;
+        }
+
         
         const updatedUser = await User.findByIdAndUpdate(id, updatedFields, {new: true});
-
+        
         return updatedUser.toJSON(); 
         
     } catch (err) {
