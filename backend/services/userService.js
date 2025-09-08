@@ -73,7 +73,7 @@ const deleteUser = async(req) => {
         if (req.body.username !== req.user.username) {
             throw new Error("Invalid Deletion Request");
         }
-        const userId = req.user.userId;
+        const userId = req.user.id;
         await User.findByIdAndDelete(userId);
         return;
     } catch (err) {
@@ -91,7 +91,7 @@ const updatePassword = async(req) => {
 
     try {
 
-        const id = req.user.userId;
+        const id = req.user.id;
         const user = await User.findById(id);
         if (!user) {
             throw new Error("Invalid Request");
@@ -123,17 +123,13 @@ const updatePassword = async(req) => {
 //for updating non-pw fields, 
 const updateUser = async(req) => {
     try {
-        const id = req.user.userId;
+        const id = req.user.id;
         const user = await User.findById(id);
+        
         if (!user) {
             throw new Error("Invalid Request");
         }
 
-        const samePw = await bcrypt.compare(req.body.password, user.pwHash);
-        if (!samePw) {
-            throw new Error("Invalid Request")
-        }
-        
         const updatedRecipes = req.body.recipeList ?? user.recipeList;
         const updatedStock = req.body.stock ?? user.stock;
 
