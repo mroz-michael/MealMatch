@@ -1,12 +1,10 @@
 const Ingredient = require('../models/Ingredient');
 const User = require('../models/User');
 
-const create = async (req) => {
-    
-    const userId = req.user.id;
+const create = async (ingredientName) => {
 
     const newIngredient = await Ingredient.create({
-        name: req.body.name
+        name: ingredientName
     })
     
     return newIngredient;

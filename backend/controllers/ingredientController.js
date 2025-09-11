@@ -1,13 +1,24 @@
 const ingredientService = require('../services/ingredientService');
+const userStockService = require('../services/stockServices');
 
 // middleware will handle data validation before it reaches this controller
 // middleware validates jwt token and attaches user as req.user
 
+/**
+ * 
+ * Catalogue the new Ingredient, and then add the user-specific details to user's stock
+ */
 const createIngredient = async (req, res) => {
 
     try {
-        const ingredient = await ingredientService.create(req);
-        res.status(201).json(ingredient);
+        const ingredientName = req.body.name;
+        const userId = req.user.id;
+
+        const ingredientForDatabase = await ingredientService.create(ingredientName);
+
+        const ingredientForUser = await userStockService.addStock(req.body, userId, ingredientForDatabase._id);
+
+        res.status(201).json(ingredientForUser);
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})

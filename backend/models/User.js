@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
     stock: {
         type: [
             {
-                ingredient: { type: mongoose.Schema.Types.ObjectId, ref: "Ingredient" },
+                ingredientId: { type: mongoose.Schema.Types.ObjectId, ref: "Ingredient" },
                 name: String,
                 portions: Number,
                 portionCost: Number,
