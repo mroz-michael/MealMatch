@@ -29,6 +29,26 @@ const UserSchema = new mongoose.Schema({
     preferences: {
         type: [String],
         default: []
+    },
+
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+
+    canCreate: {
+        type: Boolean,
+        default: false
+    },
+    
+    canUpdate: {
+        type: Boolean,
+        default: false
+    },
+
+    canDelete: {
+        type: Boolean,
+        default: false
     }
 })
 

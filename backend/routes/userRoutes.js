@@ -29,4 +29,36 @@ router.delete('/deleteForTesting/:id', async(req, res) => {
     res.status(204).send();
 })
 
+//temp route to give/remove priviledges. will replace with something protected by checking if granter is admin
+
+//req body has username, type: enum[admin, create, update, delete], grant: true. grant is optional, if missing then revoke
+router.post('/editAccess', async(req, res) => {
+    let User = require('../models/User');
+    let username = req.body.username;
+    const type = req.body.type;
+    const grantAccess = req.body.grant;
+
+    const user = await User.findOne({username});
+
+    switch (type.toLowerCase().trim()) {
+        case "admin":
+            user.isAdmin = grantAccess;
+            break;
+        case "create":
+            user.canCreate = grantAccess;
+            break;
+        case "update":
+            user.canUpdate = grantAccess;
+            break;
+        case "delete":
+            user.canDelete = grantAccess;
+            break;
+        default:
+            console.log("Incorrect type value in request body");
+            return;
+    }
+
+    await user.save();
+})
+
 module.exports = router;

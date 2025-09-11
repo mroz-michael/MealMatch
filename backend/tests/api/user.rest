@@ -68,3 +68,14 @@ Content-Type: application/json
     "password": "Password1234!",
     "preferences": ["foo"]
 }
+
+#### temporary route for granting or revoking access controls
+
+POST http://localhost:3001/api/users/editAccess
+Content-Type: application/json
+
+{
+    "username": "root",
+    "type": "admin",
+    "grant": true
+}

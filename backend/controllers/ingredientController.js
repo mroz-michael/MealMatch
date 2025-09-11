@@ -1,5 +1,4 @@
-const service = require('../services/ingredientService');
-
+const ingredientService = require('../services/ingredientService');
 
 // middleware will handle data validation before it reaches this controller
 // middleware validates jwt token and attaches user as req.user
@@ -7,7 +6,7 @@ const service = require('../services/ingredientService');
 const createIngredient = async (req, res) => {
 
     try {
-        const ingredient = await service.create(req);
+        const ingredient = await ingredientService.create(req);
         res.status(201).json(ingredient);
     } catch (err) {
         const msg = err.message || "Unknown Error";
@@ -18,7 +17,7 @@ const createIngredient = async (req, res) => {
 //get single ingredient by ID
 const getIngredient = async (req, res) => {
     try {
-        const ingredient = await service.getByID(req.params.id);
+        const ingredient = await ingredientService.getById(req.params.id, req.user.id);
         res.status(200).json(ingredient);
     } catch (err) {
         const msg = err.message || "Unknown Error";
@@ -28,7 +27,7 @@ const getIngredient = async (req, res) => {
 
 const getAllIngredients = async (req, res) => {
     try {
-        const ingredients = await service.getAll(req.user.id);
+        const ingredients = await ingredientService.getAll(req.user.id);
         res.status(200).json(ingredients);
     } catch (err) {
         const msg = err.message || "Unknown Error";

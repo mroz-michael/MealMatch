@@ -45,6 +45,8 @@ const loginUser = async(userInfo) => {
             {
                 id: user._id, 
                 username: user.username,
+                canCreate: user.canCreate,
+                isAdmin: user.isAdmin
             },
 
             process.env.JWT_SECRET, 

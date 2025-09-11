@@ -1,6 +1,8 @@
 // call relevant service functions and return response obj/status codes, 
 // middleware will handle data validation before it reaches this controller
-const service = require('../services/userService');
+const userService = require('../services/userService');
+const stockService = require('../services/stockService');
+
 require('dotenv').config();
 
 const createUser = async (req, res) => {
@@ -8,7 +10,7 @@ const createUser = async (req, res) => {
     const userInfo = {username: req.body.username, password: req.body.password};
     
     try {
-        const user = await service.registerUser(userInfo);
+        const user = await userService.registerUser(userInfo);
         const returnedUser = {
             username: user.username,
             id: user._id,
@@ -49,7 +51,7 @@ const getCurrentUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const userInfo = {username: req.body.username, password: req.body.password};
-        const token = await service.loginUser(userInfo);
+        const token = await userService.loginUser(userInfo);
         //attach token to cookie
         res.cookie("jwt", token, {
             httpOnly: true,
@@ -93,7 +95,7 @@ const deleteUser = async (req, res) => {
     //middleware will confirm validity of token and attach username/id to request
     
     try {
-        await service.deleteUser(req);
+        await userService.deleteUser(req);
 
         //use same settings as cookie in login controller
         res.clearCookie("jwt", {
@@ -112,7 +114,7 @@ const deleteUser = async (req, res) => {
 const updatePassword = async(req, res) => {
     //middleware confirms token validity
     try {
-        const updatedUser = await service.updatePassword(req);
+        const updatedUser = await userService.updatePassword(req);
         const returnedUser = Object.assign({}, updatedUser);
         delete returnedUser.pwHash;
         res.status(200).json(returnedUser);
@@ -126,7 +128,7 @@ const updatePassword = async(req, res) => {
 //for updating username, recipe list, or ingredient stock
 const updateUser = async (req, res) => {
     try {
-        const updatedUser = await service.updateUser(req);
+        const updatedUser = await userService.updateUser(req);
         const returnedUser = Object.assign({}, updatedUser);
         delete returnedUser.pwHash;
         res.status(200).json(returnedUser);
@@ -141,7 +143,7 @@ const updateUser = async (req, res) => {
 const getAllUsersTest = async(req, res) => {
 
     try {
-        users = await service.getAllUsersTest();
+        users = await userService.getAllUsersTest();
 
         //remove password hashes from response obj
         safeUsers = users.map(user => {
