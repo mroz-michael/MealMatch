@@ -17,7 +17,9 @@ const UserSchema = new mongoose.Schema({
         type: [
             {
                 ingredient: { type: mongoose.Schema.Types.ObjectId, ref: "Ingredient" },
-                quantity: Number,
+                name: String,
+                portions: Number,
+                portionCost: Number,
                 expiryDate: Date
             }
         ],

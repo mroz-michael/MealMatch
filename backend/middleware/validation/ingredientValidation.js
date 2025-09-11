@@ -33,7 +33,9 @@ const NAME_MIN_LENGTH = 2
 const NAME_MAX_LENGTH = 30
 
 const validateIngredient = (req, res, next) => {
+
     const {name, portionCost, portions, expiryDate} = req.body;
+
     if (! (req.body && name && portionCost && portions && expiryDate)  ) {
         res.status(400).json({error: "Request missing required data"});
         return;

@@ -147,25 +147,13 @@ const updateUser = async(req) => {
         }
 
         
-        const updatedUser = await applyUpdates(id, updatedFields);
-        
-        return updatedUser; 
-        
-    } catch (err) {
-        throw new Error(err.message);
-    }
-}
-
-//applies the update directly, providing flexible field updates (IE full overwrite or adding to an array)
-const applyUpdates = async (id, updatedFields) => {
-
-    try {
         const updatedUser = await User.findByIdAndUpdate(id, updatedFields, {new: true})
-        return updatedUser.toJSON();
+        
+        return updatedUser.toJSON(); 
+        
     } catch (err) {
         throw new Error(err.message);
     }
-
 }
 
 //get all for testing purposes
@@ -180,6 +168,5 @@ module.exports = {
     deleteUser,
     updatePassword,
     updateUser,
-    applyUpdates,
     getAllUsersTest
 }

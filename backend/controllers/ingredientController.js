@@ -8,7 +8,7 @@ const createIngredient = async (req, res) => {
 
     try {
         const ingredient = await service.create(req);
-        res.status(204).json(ingredient);
+        res.status(201).json(ingredient);
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
@@ -28,7 +28,7 @@ const getIngredient = async (req, res) => {
 
 const getAllIngredients = async (req, res) => {
     try {
-        const ingredients = await service.getAll(req.user);
+        const ingredients = await service.getAll(req.user.id);
         res.status(200).json(ingredients);
     } catch (err) {
         const msg = err.message || "Unknown Error";
@@ -83,7 +83,10 @@ const deleteExpiredIngredients = async (req, res) => {
 const deleteAllIngredients = async (req, res) => {
 
     try {
-
+        await service.deleteAllIngredients(req.user.id);
+        res.status(204);
+        return;
+        
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
