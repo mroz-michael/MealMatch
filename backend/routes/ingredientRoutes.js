@@ -10,10 +10,10 @@ router.get('/:id', tokenAuth.authenticateToken, controller.getIngredient);
 router.get('/',  tokenAuth.authenticateToken, controller.getAllIngredients);
 
 //create ingredient
-router.post('/',  tokenAuth.authenticateToken, userAccessControl.checkAccess("create"), ingredientValidation.validateIngredient, controller.createIngredient);
+router.post('/',  tokenAuth.authenticateToken, userAccessControl.checkAccess("create"), ingredientValidation.validateIngredientForDB, controller.createIngredient);
 
 //update ingredient
-router.put('/:id', tokenAuth.authenticateToken, userAccessControl.checkAccess("update"), ingredientValidation.validateIngredient, controller.updateIngredient);
+router.put('/:id', tokenAuth.authenticateToken, userAccessControl.checkAccess("update"), ingredientValidation.validateIngredientForDB, controller.updateIngredient);
 
 //delete one ingredient
 router.delete('/:id', tokenAuth.authenticateToken, userAccessControl.checkAccess("delete"), controller.deleteIngredient);

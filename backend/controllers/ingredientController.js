@@ -6,20 +6,16 @@ const userStockService = require('../services/stockServices');
 
 /**
  * 
- * Catalogue the new Ingredient, and then add the user-specific details to user's stock
- * TODO: consider flow where user attempts to create an ingredient that already exists in catalogue - should still create for the user's stock
+ * Catalogue the new Ingredient
  */
 const createIngredient = async (req, res) => {
 
     try {
         const ingredientName = req.body.name;
-        const userId = req.user.id;
 
         const ingredientForDatabase = await ingredientService.create(ingredientName);
 
-        const ingredientForUser = await userStockService.addStock(req.body, userId, ingredientForDatabase._id);
-
-        res.status(201).json(ingredientForUser);
+        res.status(201).json(ingredientForDatabase);
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
@@ -65,8 +61,7 @@ const deleteIngredient = async (req, res) => {
     try {
         const id = req.body.id;
         await ingredientService.deleteById(id);
-        res.status(204);
-        return;
+        return res.status(204);
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
