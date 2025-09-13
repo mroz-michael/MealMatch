@@ -1,12 +1,18 @@
+/**
+ * This controller will be responsible only for the Ingredient collection that will act as a global 'catalogue' that users can choose as templates 
+ * operations that impact ingredients in a User's personal stock are the responsibility of the userStockController
+ */
+
+
+
 const ingredientService = require('../services/ingredientService');
-const userStockService = require('../services/stockServices');
 
 // middleware will handle data validation before it reaches this controller
 // middleware validates jwt token and attaches user as req.user
 
 /**
  * 
- * Catalogue the new Ingredient
+ * Create a new Ingredient object for the DB catalogue 
  */
 const createIngredient = async (req, res) => {
 
