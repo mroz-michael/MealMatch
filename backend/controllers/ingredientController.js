@@ -7,6 +7,7 @@ const userStockService = require('../services/stockServices');
 /**
  * 
  * Catalogue the new Ingredient, and then add the user-specific details to user's stock
+ * TODO: consider flow where user attempts to create an ingredient that already exists in catalogue - should still create for the user's stock
  */
 const createIngredient = async (req, res) => {
 

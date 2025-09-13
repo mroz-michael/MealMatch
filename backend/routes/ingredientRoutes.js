@@ -2,28 +2,23 @@ const router = require('express').Router();
 const controller = require('../controllers/ingredientController');
 const ingredientValidation = require('../middleware/validation/ingredientValidation');
 const tokenAuth = require('../middleware/auth/jwtAuth');
+const userAccessControl = require('../middleware/auth/userAccess');
 
 router.get('/:id', tokenAuth.authenticateToken, controller.getIngredient);
 
-//get all in user's stock
+//get all ingredients in catalogue
 router.get('/',  tokenAuth.authenticateToken, controller.getAllIngredients);
 
 //create ingredient
-router.post('/',  tokenAuth.authenticateToken, ingredientValidation.validateIngredient, controller.createIngredient);
+router.post('/',  tokenAuth.authenticateToken, userAccessControl.checkAccess("create"), ingredientValidation.validateIngredient, controller.createIngredient);
 
 //update ingredient
-router.put('/:id', tokenAuth.authenticateToken, ingredientValidation.validateIngredient, controller.updateIngredient);
+router.put('/:id', tokenAuth.authenticateToken, userAccessControl.checkAccess("update"), ingredientValidation.validateIngredient, controller.updateIngredient);
 
 //delete one ingredient
-router.delete('/:id', tokenAuth.authenticateToken, controller.deleteIngredient);
+router.delete('/:id', tokenAuth.authenticateToken, userAccessControl.checkAccess("delete"), controller.deleteIngredient);
 
-//delete all ingredients of a given name
-router.delete('/:name', tokenAuth.authenticateToken, controller.deleteIngredientsByName);
-
-//delete all user's ingredients
-router.delete('/', tokenAuth.authenticateToken, controller.deleteAllIngredients);
-
-//delete all user's expired ingredients
-router.delete('/expired', tokenAuth.authenticateToken, controller.deleteExpiredIngredients);
+//delete entire catalogue -- Admin only
+router.delete('/', tokenAuth.authenticateToken, userAccessControl.checkAdmin, controller.deleteAllIngredients);
 
 module.exports = router;

@@ -7,39 +7,29 @@
 const NAME_MIN_LENGTH = 2
 const NAME_MAX_LENGTH = 30
 
-//ensure user making request has create priviledges and ingredient name is valid
+//ensure ingredient name is valid and user making request is authenticated
 const validateIngredient = (req, res, next) => {
 
     if (!req.user) {
-        res.status(404).json({error: "User not found"});
-        return;
-    }
-    
-    const user = req.user;
-
-
-    if (! (user.isAdmin || user.canCreate)) {
-        res.status(401).json({error: "User does not have access to perform requested operation"});
-        return;
+       return res.status(401).json({error: "User not found"});
     }
 
     const name = req.body.name;
 
     if (! (req.body && name)  ) {
-        res.status(400).json({error: "Request missing required data"});
-        return;
+        return res.status(400).json({error: "Request missing required data"});
     }
 
     const validName = validateName(name);
 
     if (!validName) {
-        res.status(400).json({error: "Invalid request data"})
-        return;
+        return res.status(400).json({error: "Invalid request data"});
     }
 
     next();
 }
 
+//make sure ingredient name meets schema requirements
 const validateName = (name) => {
     const isString = typeof name === "string";
 
