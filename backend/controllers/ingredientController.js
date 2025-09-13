@@ -29,7 +29,7 @@ const createIngredient = async (req, res) => {
 //get single ingredient by ID
 const getIngredient = async (req, res) => {
     try {
-        const ingredient = await ingredientService.getById(req.params.id, req.user.id);
+        const ingredient = await ingredientService.getById(req.params.id);
         res.status(200).json(ingredient);
     } catch (err) {
         const msg = err.message || "Unknown Error";
@@ -39,7 +39,7 @@ const getIngredient = async (req, res) => {
 
 const getAllIngredients = async (req, res) => {
     try {
-        const ingredients = await ingredientService.getAll(req.user.id);
+        const ingredients = await ingredientService.getAll();
         res.status(200).json(ingredients);
     } catch (err) {
         const msg = err.message || "Unknown Error";
@@ -50,7 +50,8 @@ const getAllIngredients = async (req, res) => {
 
 const updateIngredient = async(req, res) => {
     try {
-
+        const updatedIngredient = await ingredientService.updateById(req);
+        res.status(200).json(updateIngredient);
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
@@ -62,39 +63,25 @@ const updateIngredient = async(req, res) => {
 const deleteIngredient = async (req, res) => {
 
     try {
-
+        const id = req.body.id;
+        await ingredientService.deleteById(id);
+        res.status(204);
+        return;
     } catch (err) {
         const msg = err.message || "Unknown Error";
         res.status(400).json({error: msg})
     }
-}
-
-//delete all ingredients of a given name
-const deleteIngredientsByName = async (req, res) => {
-    try {
-
-    } catch (err) {
-        const msg = err.message || "Unknown Error";
-        res.status(400).json({error: msg})
-    }
-}
-
-//delete all expired
-const deleteExpiredIngredients = async (req, res) => {
-
-    try {
-
-    } catch (err) {
-        const msg = err.message || "Unknown Error";
-        res.status(400).json({error: msg})
-    }
-
 }
 
 const deleteAllIngredients = async (req, res) => {
+    
+    //double check that user is admin, already done by middleware but add extra safeguard
+    if (!req.user || !req.user.isAdmin) {
+        return res.status(403).json({message: "User is not Authorized to perform this action"});
+    }
 
     try {
-        await service.deleteAllIngredients(req.user.id);
+        await service.deleteAllIngredients();
         res.status(204);
         return;
         
@@ -110,8 +97,6 @@ module.exports = {
     getIngredient,
     getAllIngredients,
     deleteIngredient,
-    deleteIngredientsByName,
-    deleteExpiredIngredients,
     deleteAllIngredients,
     updateIngredient
 }

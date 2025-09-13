@@ -1,5 +1,4 @@
 const Ingredient = require('../models/Ingredient');
-const User = require('../models/User');
 
 const create = async (ingredientName) => {
 
@@ -11,26 +10,31 @@ const create = async (ingredientName) => {
 }
 
 //get the ingredient by id
-const getById = async (id, userId) => {
+const getById = async (id) => {
     const ingredient = await Ingredient.findById({id})
     return ingredient;
 }
 
+const getAll = async() => {
+    const ingredients = await Ingredient.find({});
+    return ingredients;
+}
+
 
 const updateById = async (req) => {
-    const updatedIngredient = req.body.ingredient;
-    const userId = req.user.id;
-    //todo: finish implementing
+    const id = req.body.id;
+    const updatedData = req.body.ingredient;
+    const updatedIngredient = await Ingredient.findByIdAndUpdate(id, {updatedData}, {new: true});
+    return updatedIngredient;
 }
 
-const deleteById = async (id, userId) => {
-
+const deleteById = async (id) => {
+    await Ingredient.findByIdAndDelete({id});
 }
 
 
-const deleteAll = async  (userId) => {
-    await Ingredient.deleteMany({user: userId});
-    //TODO need to also delete from user's stock. make a helper fn
+const deleteAll = async  () => {
+    await Ingredient.deleteMany({});
 }
 
 
@@ -40,7 +44,5 @@ module.exports = {
     getAll,
     updateById,
     deleteById,
-    deleteByName,
-    deleteExpired,
     deleteAll
 }
