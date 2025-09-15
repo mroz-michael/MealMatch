@@ -54,11 +54,18 @@ router.post('/editAccess', async(req, res) => {
             user.canDelete = grantAccess;
             break;
         default:
-            console.log("Incorrect type value in request body");
-            return;
+            return res.status(400).json({error: "Invalid access control type"})
     }
 
     await user.save();
+    await controller.logoutUser(req, res);
+    return res.status(200).json({
+        username: user.username,
+        isAdmin: user.isAdmin,
+        canCreate: user.canCreate,
+        canUpdate: user.canUpdate,
+        canDelete: user.canDelete
+    });
 })
 
 module.exports = router;

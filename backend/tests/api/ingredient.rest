@@ -1,5 +1,12 @@
 GET http://localhost:3001/api/ingredients
 
+###
+
+GET http://localhost:3001/api/ingredients/<id>
+
+
+
+###
 POST http://localhost:3001/api/ingredients/
 Content-Type: application/json
 
@@ -10,4 +17,7 @@ Content-Type: application/json
 
 ###
 
+DELETE http://localhost:3001/api/ingredients/68c2f8ba974db70028f2b4ed
+
+###
 DELETE http://localhost:3001/api/ingredients/

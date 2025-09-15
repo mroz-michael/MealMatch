@@ -4,10 +4,11 @@ const ingredientValidation = require('../middleware/validation/ingredientValidat
 const tokenAuth = require('../middleware/auth/jwtAuth');
 const userAccessControl = require('../middleware/auth/userAccess');
 
-router.get('/:id', tokenAuth.authenticateToken, controller.getIngredient);
-
 //get all ingredients in catalogue
 router.get('/',  tokenAuth.authenticateToken, controller.getAllIngredients);
+
+
+router.get('/:id', tokenAuth.authenticateToken, controller.getIngredient);
 
 //create ingredient
 router.post('/',  tokenAuth.authenticateToken, userAccessControl.checkAccess("create"), ingredientValidation.validateIngredientForDB, controller.createIngredient);

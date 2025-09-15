@@ -1,6 +1,5 @@
 //controller for User's stock array of ingredients
-const service = require('../services/stockServices');
-
+const service = require('../services/stockService')
 
 const getStock = async (req, res) => {
     

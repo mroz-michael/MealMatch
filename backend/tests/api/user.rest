@@ -1,6 +1,6 @@
 ## "username": "root",
 ## "password": "Password123!",
-
+## root2 : Password1234!
 
 ## get all users --> for api testing only (or future admin use)
 GET http://localhost:3001/api/users/testing
@@ -28,8 +28,8 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "username": "root1234!",
-    "password": "Password1234!"
+    "username": "root",
+    "password": "Password123!"
 }
 
 

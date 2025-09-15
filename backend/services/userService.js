@@ -46,6 +46,8 @@ const loginUser = async(userInfo) => {
                 id: user._id, 
                 username: user.username,
                 canCreate: user.canCreate,
+                canUpdate: user.canUpdate,
+                canDelete: user.canDelete,
                 isAdmin: user.isAdmin
             },
 

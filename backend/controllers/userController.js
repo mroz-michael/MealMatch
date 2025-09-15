@@ -36,7 +36,11 @@ const getCurrentUser = async (req, res) => {
                 id: req.user.id,
                 recipeList: req.user.recipeList,
                 stock: req.user.stock,
-                preferences: req.user.preferences
+                preferences: req.user.preferences,
+                isAdmin: req.user.isAdmin,
+                canCreate: req.user.canCreate,
+                canUpdate: req.user.canUpdate,
+                canDelete: req.user.canDelete
             }
 
             res.status(200).json(returnedUser);
