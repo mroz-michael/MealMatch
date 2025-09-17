@@ -135,7 +135,8 @@ const updateUser = async(req) => {
         const updatedRecipes = req.body.recipeList;
         const updatedStock = req.body.stock;
         const updatedPreferences = req.body.preferences;
-        
+        const updatedUsername = req.body.username;
+
         const updatedFields = {};
 
         if (updatedRecipes) {
@@ -150,7 +151,10 @@ const updateUser = async(req) => {
             updatedFields.preferences = updatedPreferences;
         }
 
-        
+        if (updatedUsername) {
+            updatedFields.username = updatedUsername;
+        }
+
         const updatedUser = await User.findByIdAndUpdate(id, updatedFields, {new: true})
         
         return updatedUser.toJSON(); 

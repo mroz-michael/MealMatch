@@ -28,7 +28,7 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "username": "root",
+    "username": "rootUpdate",
     "password": "Password123!"
 }
 
@@ -64,7 +64,7 @@ PUT http://localhost:3001/api/users/updateUser
 Content-Type: application/json
 
 {
-    "username": "root1234!",
+    "username": "root",
     "password": "Password1234!",
     "preferences": ["foo"]
 }
