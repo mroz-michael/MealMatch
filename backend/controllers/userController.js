@@ -55,7 +55,7 @@ const getCurrentUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const userInfo = {username: req.body.username, password: req.body.password};
-        const token = await userService.loginUser(userInfo);
+        const {user, token} = await userService.loginUser(userInfo);
         //attach token to cookie
         res.cookie("jwt", token, {
             httpOnly: true,
@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
             path: "/"
         });
 
-        res.status(200).json({message: "Login Successful"});
+        res.status(200).json(user);
         
     } catch (err) {
         code = err.message && err.message == "Invalid credentials" ? 401 : 500;

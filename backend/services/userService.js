@@ -26,36 +26,35 @@ const registerUser = async (userInfo) => {
 /**
  * Logs in a valid user
  * @param {{username: string, password: string }} userInfo - Object containing name and unhashed pw
- * @returns auth token
+ * @returns {User, auth token}
  */
 const loginUser = async(userInfo) => {
 
     try {
-        const user = await User.findOne({username: userInfo.username});
-        if (!user) {
+        const fetchedUser = await User.findOne({username: userInfo.username});
+        if (!fetchedUser) {
             throw new Error("Invalid credentials");
         }
-        const samePw = await bcrypt.compare(userInfo.password, user.pwHash);
+        const samePw = await bcrypt.compare(userInfo.password, fetchedUser.pwHash);
         if (!samePw) {
             throw new Error("Invalid credentials");
         }
 
         const token = jwt.sign(
-            //user object that will be attached to request
+            //token attached to request.user
             {
-                id: user._id, 
-                username: user.username,
-                canCreate: user.canCreate,
-                canUpdate: user.canUpdate,
-                canDelete: user.canDelete,
-                isAdmin: user.isAdmin
+                id: fetchedUser._id, 
             },
 
             process.env.JWT_SECRET, 
             {expiresIn: process.env.JWT_EXPIRES_IN}
         );
 
-        return token;
+        const userObj = Object.assign({}, fetchedUser.toJSON());
+        //remove unwanted fields from return object
+        const {__v, pwHash, ...user} = userObj;
+
+        return {user, token};
 
     } catch (err) {
         if (err.message == "Invalid credentials") {

@@ -43,6 +43,11 @@ router.post('/editAccess', async(req, res) => {
     switch (type.toLowerCase().trim()) {
         case "admin":
             user.isAdmin = grantAccess;
+            if (user.isAdmin) {
+                user.canCreate = true;
+                user.canUpdate = true;
+                user.canDelete = true;
+            }
             break;
         case "create":
             user.canCreate = grantAccess;
@@ -58,7 +63,7 @@ router.post('/editAccess', async(req, res) => {
     }
 
     await user.save();
-    await controller.logoutUser(req, res);
+    
     return res.status(200).json({
         username: user.username,
         isAdmin: user.isAdmin,
