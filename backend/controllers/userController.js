@@ -29,20 +29,10 @@ const createUser = async (req, res) => {
 const getCurrentUser = async (req, res) => {
 
     try {
-//if token is valid, user will be attached to req by middleware
+    //if token is valid, user id is req.user.id;
         if (req.user) {
-            const returnedUser = {
-                username: req.user.username,
-                id: req.user.id,
-                recipeList: req.user.recipeList,
-                stock: req.user.stock,
-                preferences: req.user.preferences,
-                isAdmin: req.user.isAdmin,
-                canCreate: req.user.canCreate,
-                canUpdate: req.user.canUpdate,
-                canDelete: req.user.canDelete
-            }
-
+            console.log("req.user: ", req.user);
+            const returnedUser = await userService.getUserById(req.user.id);
             res.status(200).json(returnedUser);
         } else {
             throw new Error("Login not found");

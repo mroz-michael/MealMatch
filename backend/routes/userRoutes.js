@@ -30,8 +30,9 @@ router.delete('/deleteForTesting/:id', async(req, res) => {
 })
 
 //temp route to give/remove priviledges. will replace with something protected by checking if granter is admin
-
 //req body has username, type: enum[admin, create, update, delete], grant: true. grant is optional, if missing then revoke
+
+//TODO: replace this route with a better, more secure & modular approach
 router.post('/editAccess', async(req, res) => {
     let User = require('../models/User');
     let username = req.body.username;
@@ -63,7 +64,7 @@ router.post('/editAccess', async(req, res) => {
     }
 
     await user.save();
-    
+
     return res.status(200).json({
         username: user.username,
         isAdmin: user.isAdmin,

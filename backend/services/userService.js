@@ -44,6 +44,7 @@ const loginUser = async(userInfo) => {
             //token attached to request.user
             {
                 id: fetchedUser._id, 
+                username: fetchedUser.username
             },
 
             process.env.JWT_SECRET, 
@@ -65,6 +66,16 @@ const loginUser = async(userInfo) => {
     }
 }
 
+//query DB for user, return user obj without pwHash or __v
+const getUserById = async (userId) => {
+
+    const user = await User.findById(userId);
+
+    const {pwHash, __v, ...returnFields} = user.toJSON();
+    console.log("returnFields being returned: ", returnFields);
+    return returnFields;
+
+}
 
 //req contains username, pw, and user obj extracted from token
 const deleteUser = async(req) => {
@@ -172,6 +183,7 @@ const getAllUsersTest = async () => {
 module.exports = {
     registerUser,
     loginUser,
+    getUserById,
     deleteUser,
     updatePassword,
     updateUser,
